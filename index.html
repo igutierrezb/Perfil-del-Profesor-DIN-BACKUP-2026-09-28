@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Perfil Académico Docente · División Industrial UTEQ</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="mobile.css?v=20260928-1">
+<meta name="theme-color" content="#0b2b46">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<div id="loginGate" class="login-gate">
+  <div class="login-card">
+    <picture class="login-brand-picture">
+      <source media="(max-width: 760px)" srcset="icon-192.png">
+      <img src="logo-din-horizontal.png" class="login-logo division-logo-full" alt="DIN · División Industrial · Turno Matutino">
+    </picture>
+    <div class="login-copy">
+      <div class="eyebrow">Universidad Tecnológica de Querétaro · División Industrial</div>
+      <h1>Perfil Académico Docente</h1>
+      <p>Acceso exclusivo con cuenta institucional <b>@uteq.edu.mx</b>.</p>
+      <div class="period-badge" id="periodBadgeGate">Periodo de vigencia · SEP 2026 - AGO 2027</div>
+      <div id="authStatusGate" class="auth-status gate">Sin sesión · requiere cuenta institucional</div>
+      <div id="deadlineGate" class="deadline-card compact">Fecha límite de captura no configurada.</div>
+      <div class="gate-actions">
+        <button id="btnLoginGate" class="primary big" onclick="signIn()">Ingresar con cuenta institucional</button>
+      </div>
+      <div class="login-security-note">
+        Use una cuenta <strong>@uteq.edu.mx</strong>. Esta plataforma no solicita ni almacena su contraseña;
+        el acceso se valida directamente mediante Google.
+      </div>
+      <small>La información vertida en esta plataforma se administra bajo los mismos criterios señalados en el
+        <a href="https://www.uteq.edu.mx/ConoceLaUTEQ/Default.aspx?gXr=217" target="_blank" rel="noopener">Aviso de Privacidad de la UTEQ</a>.
+      </small>
+      <div class="gate-credit">Sitio diseñado, creado y administrado por <b>Iván Gutiérrez Bautista</b>.</div>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand-block">
+      <img src="icon-din.png" class="hero-icon division-logo-emblem" alt="DIN · División Industrial">
+      <div>
+        <div class="eyebrow">Universidad Tecnológica de Querétaro · División Industrial</div>
+        <h1>Perfil Académico Docente</h1>
+        <p>Actualización, formalización y gestión del perfil por asignatura</p>
+        <div class="period-badge inline" id="periodBadgeInline">Periodo de vigencia · SEP 2026 - AGO 2027</div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-chip">Formato institucional · EA-F-86</div>
+      <div id="authStatus" class="auth-status">Sin sesión</div>
+      <div class="save-cloud-line"><span id="lastSaved">Guardado local</span><span id="cloudStatus">Sincronización pendiente</span></div>
+      <div class="auth-buttons">
+        <button id="btnLogin" class="ghost" onclick="signIn()">Ingresar con cuenta institucional</button>
+        <button id="btnLogout" class="ghost hidden" onclick="signOutApp()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="deadline-top-band">
+  <div id="deadlineHeader" class="deadline-card header-deadline">Fecha límite no configurada.</div>
+</div>
+
+<nav class="main-nav">
+  <button data-view="perfil" class="active"><span class="nav-num">1</span><span class="nav-ico" aria-hidden="true">▣</span> Datos del profesor</button>
+  <button data-view="captura"><span class="nav-num">2</span><span class="nav-ico" aria-hidden="true">▤</span> Perfil por programa</button>
+  <button data-view="revision" id="navRevision"><span class="nav-num">3</span><span class="nav-ico" aria-hidden="true">⌕</span> Revisión e impresión</button>
+  <button data-view="admin" id="adminTab" class="admin-tab hidden"><span class="nav-num">4</span><span class="nav-ico" aria-hidden="true">⚙</span> Administración</button>
+</nav>
+
+<main>
+  <section id="perfil" class="view active">
+    <div class="welcome card">
+      <div>
+        <span class="section-kicker">Actualización de perfil</span>
+        <h2>Información general del profesor</h2>
+        <p>Los datos obligatorios deben capturarse antes de continuar. La información se conserva para futuras actualizaciones.</p>
+      </div>
+      <div class="welcome-badge" id="profileStepBadge">Paso 1 de 3</div>
+    </div>
+
+    <div class="card section-card">
+      <div class="section-head">
+        <div><h2>Datos del profesor</h2><p>Capture apellidos, nombres y categoría como deberán aparecer en el formato.</p></div>
+        <span class="required-note">Obligatorio</span>
+      </div>
+      <div class="teacher-line">
+        <label>Apellido paterno *<input id="apPat" placeholder="Ej. Hernández"></label>
+        <label>Apellido materno *<input id="apMat" placeholder="Ej. López"></label>
+        <label>Nombres *<input id="nombres" placeholder="Ej. Ana Patricia"></label>
+        <label>Categoría *<select id="categoria"></select></label>
+      <label class="degree-field">Grado Académico
+        <select id="gradoAcademico">
+          <option value="">Sin grado</option>
+          <option>TSU</option><option>Lic.</option><option>Ing.</option><option>Esp.</option>
+          <option>Mtra.</option><option>Mtro.</option><option>Dr.</option><option>Dra.</option><option>Posdr.</option>
+        </select>
+      </label>
+      </div>
+      <div class="save-row"><button class="save-btn" onclick="saveSection()">Guardar datos del profesor</button></div>
+    </div>
+
+    <div class="card section-card">
+      <div class="section-head">
+        <div><h2>1. Formación profesional</h2><p>La primera línea es obligatoria.</p></div>
+        <span class="required-note">1ª línea obligatoria</span>
+      </div>
+      <div id="formacion"></div>
+      <div class="save-row"><button class="save-btn" onclick="saveSection()">Guardar formación profesional</button></div>
+    </div>
+
+    <div class="card section-card">
+      <div class="section-head">
+        <div><h2>2. Experiencia docente</h2><p>Registre institución y periodo. La primera línea es obligatoria.</p></div>
+        <span class="required-note">1ª línea obligatoria</span>
+      </div>
+      <div id="docencia"></div>
+      <div class="save-row"><button class="save-btn" onclick="saveSection()">Guardar experiencia docente</button></div>
+    </div>
+
+    <div class="card section-card">
+      <div class="section-head">
+        <div><h2>3. Experiencia laboral</h2><p>Cada organización se captura en una sola línea: organización, cargo y periodo.</p></div>
+        <span class="required-note">1ª línea obligatoria</span>
+      </div>
+      <div id="laboral"></div>
+      <div class="save-row"><button class="save-btn" onclick="saveSection()">Guardar experiencia laboral</button></div>
+    </div>
+
+    <div id="commissionsBlock" class="card section-card commissions-section hidden">
+      <div class="section-head commissions-section-head">
+        <div>
+          <h2>4. Comisiones</h2>
+          <p>Información operativa para apoyar la planeación cuatrimestral del periodo.</p>
+        </div>
+        <span class="required-note">Obligatorio cuando está habilitado · admite No aplica</span>
+      </div>
+
+      <div class="commissions-reference-note">
+        <strong>Referencia para planeación.</strong>
+        Esta información no forma parte del Perfil del Profesor ni se incluye en el PDF.
+        Se utiliza únicamente como referencia para la elaboración de las planeaciones cuatrimestrales del periodo.
+      </div>
+
+      <div id="commissionsLockedBanner" class="capture-lock-banner hidden"></div>
+
+      <div class="commission-main-grid">
+  <div class="commission-left-column">
+<article id="planningCommissionsCard" class="commission-question">
+        <div class="commission-question-head">
+          <span class="planning-number">1</span>
+          <div>
+            <h3>Comisiones autorizadas por la Dirección</h3>
+            <p>Indique si es responsable de alguna comisión previamente autorizada por la Dirección.</p>
+          </div>
+        </div>
+
+        <div class="planning-choice-row commission-choice">
+          <label class="choice-card option-yes"><input type="radio" name="planningCommissionMode" value="yes" onchange="planningModeChanged()"> Sí</label>
+          <label class="choice-card option-no"><input type="radio" name="planningCommissionMode" value="na" onchange="planningModeChanged()"> No aplica</label>
+        </div>
+
+        <div id="planningCommissionsFields" class="planning-conditional">
+          <div class="commissions-help">
+            Por cada comisión capture su nombre y las horas autorizadas. Si requiere un bloque específico para su atención, seleccione los días y horarios correspondientes.
+          </div>
+          <div id="planningCommissionList" class="commission-entry-list"></div>
+          
+        </div>
+      </article>
+  </div>
+  <div class="commission-right-column">
+<article id="planningProjectCard" class="commission-question">
+        <div class="commission-question-head">
+          <span class="planning-number">2</span>
+          <div>
+            <h3>Proyecto avalado por la Universidad en Investigación, Innovación y Desarrollo Tecnológico</h3>
+            <p>Indique si participa actualmente en algún proyecto avalado por la Universidad en Investigación, Innovación y Desarrollo Tecnológico.</p>
+          </div>
+        </div>
+
+        <div class="planning-choice-row commission-choice">
+          <label class="choice-card option-yes"><input type="radio" name="planningProjectMode" value="yes" onchange="planningModeChanged()"> Sí</label>
+          <label class="choice-card option-no"><input type="radio" name="planningProjectMode" value="na" onchange="planningModeChanged()"> No aplica</label>
+        </div>
+
+        <div id="planningProjectFields" class="planning-conditional planning-project-grid">
+          <label>Nombre del proyecto
+            <input id="planningProjectName" placeholder="Nombre del proyecto">
+          </label>
+          <label>Responsabilidad que ocupa
+            <input id="planningProjectRole" placeholder="Ej. Responsable, colaborador, coordinador">
+          </label>
+          <label>Horas autorizadas
+            <input id="planningProjectHours" type="number" min="0" step="0.5" placeholder="Ej. 4">
+          </label>
+          <label>Referencia u oficio de autorización <span class="optional-inline">(si aplica)</span>
+            <input id="planningProjectReference" placeholder="Ej. oficio PIDET / número de referencia">
+          </label>
+        </div>
+        <div class="pidet-note">
+          Los proyectos de cuerpos académicos deben contar con un oficio de PIDET que solicite la descarga horaria correspondiente.
+        </div>
+      </article>
+<article id="planningCommentsCard" class="commission-question commission-observations">
+        <div class="commission-question-head">
+          <span class="planning-number optional">3</span>
+          <div>
+            <h3>Observaciones</h3>
+            <p>Espacio opcional para registrar alguna consideración académica relevante para la planeación.</p>
+          </div>
+        </div>
+        <textarea id="planningComments" class="planning-comments" rows="4" placeholder="Escribe aquí si hay alguna consideración académica que tomar en cuenta; por ejemplo, evitar asignar clase con un grupo específico por alguna situación particular entre profesor y grupo."></textarea>
+      </article>
+  </div>
+</div>
+
+<div id="planningErrors"></div>
+      <div class="save-row commissions-save-row">
+        <button class="save-btn" onclick="savePlanning(true)">Guardar comisiones y observaciones</button>
+      </div>
+    </div>
+
+    <div id="profileErrors"></div>
+    <div class="actions">
+      <button id="continueProfileBtn" type="button" class="primary">Guardar y continuar al perfil por programa →</button>
+    </div>
+  </section>
+
+  <section id="captura" class="view">
+    <div class="card profile-toolbar">
+      <div class="toolbar-left">
+        <span class="section-kicker" id="captureStepKicker">Paso 2 de 3</span>
+        <h2>Perfil por programa educativo</h2>
+        
+      </div>
+      <div class="progress">
+        <strong id="progressText"></strong>
+        <div><i id="progressBar"></i></div>
+        <small id="idealCounter">Materias favoritas: 0 · opcionales</small>
+        <small id="programCounter"></small>
+      </div>
+      <div id="deadlineCapture" class="deadline-card capture-deadline">Fecha límite no configurada.</div>
+    </div>
+
+    <div id="editingLockedBanner" class="capture-lock-banner hidden"></div>
+
+    <div class="card program-header-flow">
+      <div class="program-step-badge" id="programStep"></div>
+      <div class="program-name-flow" id="programFlowName"></div>
+      <div class="flow-buttons">
+        <button class="prev-emphasis" onclick="prevProgram()">← Anterior</button>
+        <button id="flowNextBtn" class="primary" onclick="saveAndNextProgram()">Guardar y seguir →</button>
+      </div>
+
+    </div>
+
+    <div id="programs"></div>
+    <div id="captureErrors"></div>
+    <div class="actions">
+      <button onclick="saveAll(true)">Guardar avances</button>
+    </div>
+  </section>
+
+  <section id="revision" class="view">
+    <div class="card review-head no-print">
+      <div>
+        <span class="section-kicker" id="reviewStepKicker">Paso 3 de 3</span>
+        <h2>Revisión e impresión</h2>
+        <p>La revisión solo se habilita cuando la captura está completa.</p>
+      </div>
+      <div id="validation"></div>
+    </div>
+    <div class="actions no-print review-final-actions review-final-actions-top">
+      <button onclick="go('captura')">← Volver a captura</button>
+      <button class="primary final-print-btn" onclick="printProfile()">Finalizar e imprimir / guardar PDF</button>
+    </div>
+    <div id="printArea"></div>
+    <div class="actions no-print review-final-actions review-final-actions-bottom">
+      <button onclick="go('captura')">← Volver a captura</button>
+      <button class="primary final-print-btn" onclick="printProfile()">Finalizar e imprimir / guardar PDF</button>
+    </div>
+  </section>
+
+
+
+  <section id="admin" class="view">
+    <div class="admin-quickbar card">
+      <button onclick="document.getElementById('captureControlCard').scrollIntoView({behavior:'smooth',block:'start'})">⚙ Control de captura</button>
+      <button onclick="document.getElementById('institutionalConfig').scrollIntoView({behavior:'smooth',block:'start'})">▤ Configuración institucional</button>
+    </div>
+
+    <div class="admin-core-grid">
+<section id="captureControlCard" class="card admin-core-card capture-control-card">
+        <div class="admin-core-head">
+          <div>
+            <h2>Control de captura</h2>
+            <p>Edición general y fecha/hora límite.</p>
+          </div>
+          <div class="capture-control-statuses">
+            <span id="editModeStatus" class="edit-mode-status"></span>
+            <span id="deadlineAdminStatus" class="deadline-admin-status"></span>
+          </div>
+        </div>
+        <label class="admin-core-label">Fecha y hora de cierre
+          <input id="captureDeadlineAdmin" type="datetime-local">
+        </label>
+        <div id="deadlineAdminPreview" class="deadline-admin-preview"></div>
+        <div class="mini-actions admin-core-actions">
+          <button class="primary" onclick="saveDeadline()">Guardar fecha</button>
+          <button onclick="clearDeadline()">Borrar límite</button>
+          <button id="editModeBtn" class="edit-mode-btn" onclick="toggleEditingLock()"></button>
+        </div>
+      </section>
+<section id="commissionsAdminCard" class="card admin-core-card commissions-admin-card">
+        <div class="admin-core-head">
+          <div>
+            <h2>Comisiones</h2>
+            <p>Habilita o deshabilita el apartado 4 de Datos del profesor.</p>
+          </div>
+          <span id="planningAdminStatus" class="planning-admin-status"></span>
+        </div>
+        <div class="commissions-admin-reference">
+          La información no se imprime; se utiliza únicamente como referencia para la elaboración de las planeaciones cuatrimestrales del periodo.
+        </div>
+        <div class="mini-actions admin-core-actions">
+          <button id="planningToggleBtn" type="button" class="planning-toggle-btn" onclick="togglePlanningPage()"></button>
+        </div>
+      </section>
+<section id="institutionalConfig" class="card admin-core-card">
+        <div class="admin-core-head">
+          <div>
+            <h2>Configuración institucional</h2>
+            <p>Datos de vigencia y control documental.</p>
+          </div>
+        </div>
+        <div class="admin-core-fields">
+          <label>Jefe de Unidad<input id="jefe"></label>
+          <label>Periodo de vigencia<input id="periodoAdmin"></label>
+          <div class="admin-core-triple">
+            <label>Código<input id="codigo"></label>
+            <label>Revisión<input id="revisionCal"></label>
+            <label>Fecha de revisión<input id="fechaRevision"></label>
+          </div>
+        </div>
+        <div class="period-preserve-note">Cambiar el periodo <b>no borra ni reinicia</b> lo capturado.</div>
+        <div class="mini-actions admin-core-actions">
+          <button class="primary institutional-save-btn" onclick="saveAdmin()">✓ Guardar configuración</button>
+        </div>
+      </section>
+
+<section id="excelExportCard" class="card admin-core-card excel-admin-card">
+  <div class="admin-core-head">
+    <div>
+      <h2>Exportación Excel</h2>
+      <p>Seleccione las hojas y cuatrimestres que desea incluir.</p>
+    </div>
+    <span class="excel-admin-badge">Excel</span>
+  </div>
+  <div class="excel-admin-group">
+    <b>Hojas del libro</b>
+    <div id="excelSheetOptions" class="excel-option-grid"></div>
+  </div>
+  <div class="excel-admin-group">
+    <b>Cuatrimestres</b>
+    <div id="excelQuarterOptions" class="excel-quarter-grid"></div>
+  </div>
+  <button class="excel-export-btn excel-export-card-btn" onclick="exportExcel()" aria-label="Exportar Excel">
+    <span class="excel-logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20">
+        <rect x="3" y="3" width="12" height="18" rx="2" fill="#217346"/>
+        <path d="M15 6h6v12h-6" fill="#185C37"/>
+        <path d="M7 8.5l2 3-2.2 4h2l1.2-2.5 1.3 2.5h2l-2.3-4 2-3h-2l-1 2-1-2z" fill="#fff"/>
+      </svg>
+    </span>
+    <span class="excel-export-copy"><strong>Exportar Excel</strong><small>Generar libro seleccionado</small></span>
+  </button>
+</section>
+</div>
+
+</div>
+
+    <div class="card teacher-admin-card">
+      <div class="section-head teacher-admin-head">
+        <div>
+          <h2>Profesores y cierre de perfil</h2>
+          <p>Consulte quién ya concluyó, la fecha de cierre, habilite la edición de un solo profesor o elimine un perfil que ya no deba conservarse.</p>
+        </div>
+        <div class="teacher-admin-head-tools">
+          <button id="refreshTeacherProgressBtn" type="button" class="teacher-refresh-btn" onclick="refreshTeacherAdminProgress()">↻ Actualizar avance</button>
+          <div id="teacherAdminSummary" class="teacher-admin-summary">Cargando…</div>
+        </div>
+      </div>
+      <div class="teacher-delete-note">Eliminar perfil borra la información académica guardada en esta plataforma; no elimina la cuenta institucional del profesor.</div>
+      <div id="teacherAdminList" class="teacher-admin-list"></div>
+    </div>
+
+    <div class="card programs-common-card">
+      <div class="section-head">
+        <div>
+          <h2>Programas educativos y troncos comunes</h2>
+          <p>Administre acrónimo, edición del programa, tronco común y estado de cada programa desde una sola sección.</p>
+        </div>
+      </div>
+      <div class="program-admin-legend">
+        <span class="program-chip acronym-chip">Acrónimo</span>
+        <span class="program-chip edit-chip">Editar</span>
+        <span class="program-chip common-chip">Tronco común</span>
+        <span class="program-chip state-chip">Estado</span>
+      </div>
+      <div id="programAdminList" class="program-admin-list"></div>
+      <div id="commonRuleEditor" class="common-rule-editor hidden"></div>
+      <div class="common-rules-integrated">
+        <h3>Troncos comunes configurados</h3>
+        <div id="commonRules" class="common-rules-compact"></div>
+      </div>
+    </div>
+
+
+    <details class="card academic-relations-card" id="academicRelationsCard">
+      <summary class="academic-relations-summary">
+        <div>
+          <h2>Mapa de relaciones académicas</h2>
+          <p>Visualice cómo se relacionan troncos comunes, materias con el mismo nombre y vinculaciones transversales.</p>
+        </div>
+        <span class="academic-relations-toggle">Desplegar ▾</span>
+      </summary>
+      <div class="academic-relations-body">
+        <div class="academic-relations-legend">
+          <span class="relation-legend common">Tronco común</span>
+          <span class="relation-legend automatic">Mismo nombre</span>
+          <span class="relation-legend explicit">Transversal 1 a 1</span>
+        </div>
+        <div id="academicRelationsTree" class="academic-relations-tree"></div>
+      </div>
+    </details>
+
+    <div class="card transversal-admin-card">
+      <div class="section-head transversal-admin-head">
+        <div>
+          <h2>Asignaturas transversales</h2>
+          <p>Configure, una por una, relaciones específicas entre una materia de origen y una materia de destino.</p>
+        </div>
+        <span class="transversal-admin-badge">↔ Vinculación 1 a 1</span>
+      </div>
+
+      <div class="transversal-auto-note">
+        <strong>Sincronización automática por nombre.</strong>
+        Las asignaturas con el <b>mismo nombre exacto</b> comparten automáticamente competencia, área de conocimiento, coordinación y favorita.
+        Si una materia se <b>deshabilita</b>, esa decisión sólo afecta a esa materia. <b>Proyecto integrador siempre permanece autónomo.</b>
+      </div>
+
+      <div class="transversal-pair-grid">
+        <section class="transversal-side source">
+          <div class="transversal-side-title"><span>1</span><div><b>Materia de origen</b><small>Programa, cuatrimestre y asignatura.</small></div></div>
+          <label>Programa
+            <select id="transversalSourceProgram" onchange="renderTransversalSemesterOptions('source')"></select>
+          </label>
+          <label>Cuatrimestre
+            <select id="transversalSourceSemester" onchange="renderTransversalCourseOptions('source')"></select>
+          </label>
+          <label>Asignatura
+            <select id="transversalSourceSubject" onchange="syncTransversalDestinationPrograms()"></select>
+          </label>
+        </section>
+
+        <div class="transversal-pair-arrow">→</div>
+
+        <section class="transversal-side target">
+          <div class="transversal-side-title"><span>2</span><div><b>Materia de destino</b><small>Programa, cuatrimestre y asignatura común.</small></div></div>
+          <label>Programa
+            <select id="transversalTargetProgram" onchange="renderTransversalSemesterOptions('target')"></select>
+          </label>
+          <label>Cuatrimestre
+            <select id="transversalTargetSemester" onchange="renderTransversalCourseOptions('target')"></select>
+          </label>
+          <label>Asignatura
+            <select id="transversalTargetSubject"></select>
+          </label>
+        </section>
+      </div>
+
+      <div class="transversal-actions">
+        <button type="button" class="transversal-save-btn" onclick="saveTransversalRule()">＋ Agregar relación transversal</button>
+      </div>
+
+      <div class="transversal-configured">
+        <h3>Relaciones transversales configuradas</h3>
+        <div id="transversalRulesList"></div>
+      </div>
+    </div>
+
+    <div id="programEditorCard" class="card program-editor-card">
+      <div class="section-head">
+        <div>
+          <h2 id="programEditorTitle">Agregar programa educativo</h2>
+          <p id="programEditorHelp">Capture nombre y salida lateral. Después agregue las materias y sus horas de forma independiente en cada cuatrimestre.</p>
+        </div>
+        <span id="programEditorMode" class="editor-mode-badge">Nuevo</span>
+      </div>
+
+      <div class="admin-grid">
+        <label>Nombre del programa educativo<input id="newProgramName"></label>
+        <label>Salida lateral<input id="newProgramExit"></label>
+      </div>
+      <div id="newProgramSemesters"></div>
+      <div class="admin-actions">
+        <button onclick="addSemesterEditor()">+ Agregar cuatrimestre</button>
+        <button id="cancelProgramEditBtn" class="hidden" onclick="cancelProgramEdit()">Cancelar edición</button>
+        <button id="saveProgramEditorBtn" class="primary" onclick="saveProgramEditor()">Guardar nuevo programa educativo</button>
+      </div>
+      <div id="customProgramsList"></div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="creator-credit">Sitio diseñado, creado y administrado por <b>Iván Gutiérrez Bautista</b>.</div>
+  <div>La información vertida en esta plataforma se administra bajo los mismos criterios señalados en el
+    <a href="https://www.uteq.edu.mx/ConoceLaUTEQ/Default.aspx?gXr=217" target="_blank" rel="noopener">Aviso de Privacidad de la UTEQ</a>.
+  </div>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<div id="captureOrientationModal" class="capture-orientation-modal hidden" role="dialog" aria-modal="true" aria-labelledby="captureOrientationTitle">
+  <div class="capture-orientation-card">
+    <div class="capture-orientation-head">
+      <div class="capture-orientation-symbol">✓</div>
+      <div>
+        <h2 id="captureOrientationTitle">Antes de iniciar el Perfil por programa</h2>
+        <p>Lea estas indicaciones breves antes de revisar las asignaturas.</p>
+      </div>
+    </div>
+
+    <div class="capture-orientation-principle">
+      <strong>Mensaje para el llenado</strong>
+      <span>El llenado de la información parte de un ejercicio de <b>autorreflexión y objetividad</b>. Seleccione únicamente las asignaturas que sean congruentes con su formación académica, experiencia docente y experiencia profesional.</span>
+    </div>
+
+    <div class="capture-orientation-grid">
+      <div class="orientation-step"><b>1</b><span><strong>Todas las asignaturas aparecen habilitadas por defecto.</strong> Su tarea principal es deshabilitar aquellas que no sean acordes con su perfil.</span></div>
+      <div class="orientation-step"><b>2</b><span>En cada asignatura que sí puede impartir, indique su nivel: <strong>X = competencia media</strong> o <strong>XX = competencia alta</strong>.</span></div>
+      <div class="orientation-step"><b>3</b><span>Señale de dónde proviene ese conocimiento: <strong>1 Formación académica · 2 Experiencia docente · 3 Experiencia laboral</strong>, o una combinación: 12, 13, 23 o 123.</span></div>
+      <div class="orientation-step"><b>4</b><span>Marque <strong>✓ Coordinador</strong> únicamente si previamente ha coordinado esa asignatura.</span></div>
+      <div class="orientation-step"><b>5</b><span>La <strong>★ Favorita</strong> es opcional y sirve para identificar las asignaturas que considera especialmente adecuadas para impartir según su perfil.</span></div>
+    </div>
+
+    <div class="capture-orientation-reference">
+      <div><strong>Coordinador y Favorita</strong><span>Son referencias para apoyar el diseño de la planeación cuatrimestral; no aparecen en el formato impreso del Perfil del Profesor.</span></div>
+      <div><strong>Comisiones y horarios</strong><span>Los horarios registrados para alguna comisión son una referencia para la planeación. <b>La prioridad es la atención de la clase frente a grupo</b> y cualquier descarga deberá sujetarse a la autorización correspondiente.</span></div>
+    </div>
+
+    <div class="capture-orientation-footer">
+      <span>Los programas con <strong>tronco común</strong> mostrarán un aviso específico cuando existan asignaturas sincronizadas entre programas.</span>
+      <button type="button" class="capture-orientation-accept" onclick="acceptCaptureOrientation()">Aceptar y comenzar</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="finalizeProfileModal" class="finalize-modal hidden" role="dialog" aria-modal="true" aria-labelledby="finalizeModalTitle">
+  <div class="finalize-modal-card">
+    <div class="finalize-modal-head">
+      <div class="finalize-modal-icon">✓</div>
+      <div>
+        <h2 id="finalizeModalTitle">Finalizar perfil e imprimir</h2>
+        <p>Antes de continuar, verifique lo siguiente:</p>
+      </div>
+    </div>
+    <div class="finalize-lock-warning">
+      <strong>Importante: al finalizar ya no se permitirá editar el perfil.</strong>
+      <span>La información quedará bloqueada para el periodo actual. Si posteriormente necesita realizar cualquier corrección, deberá solicitar al <strong>JUCA</strong> la habilitación temporal de edición.</span>
+    </div>
+    <ul class="finalize-checklist">
+      <li><span class="finalize-bullet">🔒</span><span>Después de confirmar podrá <strong>consultar e imprimir</strong> su información, pero no modificarla. Para editar nuevamente, consulte a su <strong>JUCA</strong>.</span></li>
+      <li><span class="finalize-bullet">🖨</span><span>Imprima o guarde el Perfil del Profesor siempre en <strong>orientación horizontal</strong>.</span></li>
+      <li><span class="finalize-bullet">👁</span><span>Antes de imprimir o guardar el PDF, revise que <strong>todas las hojas</strong> se visualicen correctamente.</span></li>
+      <li><span class="finalize-bullet">✍</span><span>Después de imprimir, el documento deberá pasar a <strong>firma del profesor, firma del JUCA y sello correspondiente</strong>.</span></li>
+    </ul>
+    <div class="finalize-question">¿Desea finalizar su perfil e imprimir / guardar el PDF?</div>
+    <div class="finalize-modal-actions">
+      <button type="button" class="finalize-back-btn" onclick="resolveFinalizeDialog(false)">Volver y revisar</button>
+      <button type="button" class="finalize-confirm-btn" onclick="resolveFinalizeDialog(true)">Finalizar e imprimir / guardar PDF</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="firebase-config.js?v=20260928-1"></script>
+<script src="catalog.js?v=20260928-1"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script type="module" src="app.js?v=20260928-1"></script>
+</body>
+</html>
